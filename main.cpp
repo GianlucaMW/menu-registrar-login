@@ -4,20 +4,45 @@
 #include <stdlib.h>
 using namespace std;
 
-bool logado(){
+void registrar(){
+    string username, password;
+    
+    cout << "Digite o seu nome: "; cin >> username;
+    cout << "Digite a sua senha: "; cin >> password;
+    ofstream file;
+    file.open(username + ".txt");
+    file << username << endl << password;
+    file.close();
+    return;
+}
+
+void logar() {
     string username, password, un, pw;
+    int escolha2;
+    
     cout << "Digite seu usuário: "; cin >> username;
     cout << "Digite a sua senha: "; cin >> password;
     
-    ifstream read("c\\" + username + ".txt");
+    ifstream read(username + ".txt");
     getline(read, un);
     getline(read, pw);
     
-    if(un == username && pw == password){
-        return true;
+    if (un == username && pw == password){
+        cout << "Acesso Liberado" << endl;
+        return;
     }
     else {
-        return false;
+        cout << "Senha ou usuário incorreto.\n1: Cadastrar-se\n2: Tentar Novamente\n3: Sair\n"; cin >> escolha2;
+    }
+    switch(escolha2){
+        case 1:
+        registrar();
+        break;
+        case 2:
+        logar();
+        break;
+        case 3:
+        break;
     }
 }
 
@@ -25,37 +50,21 @@ int main(){
     int escolha;
     
     cout << "Menu:\n1:Registrar\n2:Login\nEscolha:"; cin >> escolha;
+    
     if (escolha == 1){
-        string username, password;
-        
-        cout << "Digite o seu usuário: "; cin >> username;
-        cout << "Digite a sua senha: "; cin >> password;
-        
-        ofstream file;
-        file.open("c\\" + username + ".txt");
-        file << username << endl << password;
-        file.close();
-        
-        main();
+        registrar();
     }
     else if (escolha == 2){
-        bool status = logado();
-        
-        if (!status){
-            cout << "Usuário não logado!!" << endl;
-            bool escolha2;
-            cout << "Deseja se registrar?\n1:Sim\n2:Não" << endl; cin >> escolha2;
-            if (escolha2 == 1) {
-                main();
-            }
-            else{
-                exit;
-            }
-        }
-        else {
-            cout << "Logado com sucesso!" << endl; 
-            return 1;
-        }
+        logar();
     }
     return 0;
 }
+
+
+
+
+
+
+
+
+
